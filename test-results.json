@@ -1,0 +1,131 @@
+{
+  "timestamp": "2025-11-22T09:07:21.774Z",
+  "summary": {
+    "total": 20,
+    "passed": 0,
+    "failed": 20,
+    "passRate": "0.00%"
+  },
+  "results": [
+    {
+      "endpoint": "POST /auth/login",
+      "role": "admin",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "POST /auth/login",
+      "role": "dosen",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "POST /auth/login",
+      "role": "mahasiswa",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /auth/profile",
+      "role": "admin",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /auth/profile",
+      "role": "dosen",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /auth/profile",
+      "role": "mahasiswa",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "POST /auth/register",
+      "role": "public",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /users",
+      "role": "admin",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /users",
+      "role": "dosen",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /users",
+      "role": "mahasiswa",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "POST /proposals",
+      "role": "mahasiswa",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /proposals",
+      "role": "admin",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /proposals",
+      "role": "dosen",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /proposals",
+      "role": "mahasiswa",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /proposals/statistics",
+      "role": "admin",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /proposals/pending-review",
+      "role": "dosen",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /bimbingan",
+      "role": "admin",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /bimbingan",
+      "role": "dosen",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /bimbingan",
+      "role": "mahasiswa",
+      "status": "FAIL",
+      "error": "fetch failed"
+    },
+    {
+      "endpoint": "GET /bimbingan/upcoming",
+      "role": "dosen",
+      "status": "FAIL",
+      "error": "fetch failed"
+    }
+  ]
+}
