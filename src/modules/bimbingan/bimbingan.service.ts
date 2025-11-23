@@ -9,7 +9,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, In } from 'typeorm';
+import { Repository, Between, In, FindOperator } from 'typeorm';
 import { Bimbingan, BimbinganStatus } from './entities/bimbingan.entity';
 import { CreateBimbinganDto } from './dto/create-bimbingan.dto';
 import { UpdateBimbinganDto } from './dto/update-bimbingan.dto';
@@ -93,7 +93,7 @@ export class BimbinganService {
       dosenId?: string;
       status?: BimbinganStatus;
       proposalId?: string;
-      tanggal?: ReturnType<typeof Between>;
+      tanggal?: FindOperator<Date>;
     }
 
     const where: WhereCondition = {};
@@ -108,6 +108,7 @@ export class BimbinganService {
     // Apply additional filters
     if (filters?.status) where.status = filters.status;
     if (filters?.proposalId) where.proposalId = filters.proposalId;
+
     if (filters?.startDate && filters?.endDate) {
       where.tanggal = Between(filters.startDate, filters.endDate);
     }
@@ -266,13 +267,14 @@ export class BimbinganService {
     userRole: UserRole,
   ): Promise<Bimbingan[]> {
     interface WhereCondition {
-      status: ReturnType<typeof In>;
-      tanggal: ReturnType<typeof Between>;
+      status: FindOperator<BimbinganStatus>;
+      tanggal: FindOperator<Date>;
       mahasiswaId?: string;
       dosenId?: string;
     }
 
     const where: WhereCondition = {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       status: In([BimbinganStatus.DIJADWALKAN, BimbinganStatus.DITUNDA]),
       tanggal: Between(
         new Date(),

@@ -11,7 +11,8 @@ export default registerAs(
   (): JwtModuleOptions => ({
     secret: process.env.JWT_SECRET || 'default-secret-key-change-this',
     signOptions: {
-      expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      expiresIn: (process.env.JWT_EXPIRES_IN || '7d') as any,
       issuer: 'SIBMO API',
       audience: 'SIBMO Client',
     },

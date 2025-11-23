@@ -22,7 +22,9 @@ import { jwtConstants } from '../../config/jwt.config';
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET') || jwtConstants.secret,
         signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRES_IN') || '7d',
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          expiresIn: (configService.get<string>('JWT_EXPIRES_IN') ||
+            '7d') as any,
         },
       }),
       inject: [ConfigService],
