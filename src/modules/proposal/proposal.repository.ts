@@ -120,7 +120,14 @@ export class ProposalRepository extends Repository<Proposal> {
   async getStatistics(
     userId?: string,
     role?: string,
-  ): Promise<Record<string, number>> {
+  ): Promise<{
+    total: number;
+    draft: number;
+    diajukan: number;
+    diterima: number;
+    ditolak: number;
+    revisi: number;
+  }> {
     const queryBuilder = this.createQueryBuilder('proposal');
 
     // Filter berdasarkan role
@@ -136,10 +143,26 @@ export class ProposalRepository extends Repository<Proposal> {
       .groupBy('proposal.status')
       .getRawMany<{ status: string; count: string }>();
 
-    return stats.reduce((acc: Record<string, number>, stat) => {
-      acc[stat.status] = parseInt(stat.count, 10);
-      return acc;
-    }, {});
+    const result = {
+      total: 0,
+      draft: 0,
+      diajukan: 0,
+      diterima: 0,
+      ditolak: 0,
+      revisi: 0,
+    };
+
+    stats.forEach((stat) => {
+      const count = parseInt(stat.count, 10);
+      result.total += count;
+
+      const status = stat.status.toLowerCase();
+      if (status in result) {
+        result[status as keyof typeof result] = count;
+      }
+    });
+
+    return result;
   }
 
   /**

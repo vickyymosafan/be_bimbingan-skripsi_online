@@ -88,13 +88,15 @@ export class BimbinganService {
     user: UserContext,
     filters?: BimbinganFilters,
   ): Promise<Bimbingan[]> {
-    const where: {
+    interface WhereCondition {
       mahasiswaId?: string;
       dosenId?: string;
       status?: BimbinganStatus;
       proposalId?: string;
       tanggal?: ReturnType<typeof Between>;
-    } = {};
+    }
+
+    const where: WhereCondition = {};
 
     // Filter berdasarkan role
     if (user.role === UserRole.MAHASISWA) {
@@ -263,12 +265,14 @@ export class BimbinganService {
     userId: string,
     userRole: UserRole,
   ): Promise<Bimbingan[]> {
-    const where: {
+    interface WhereCondition {
+      status: ReturnType<typeof In>;
+      tanggal: ReturnType<typeof Between>;
       mahasiswaId?: string;
       dosenId?: string;
-      status: BimbinganStatus[];
-      tanggal: ReturnType<typeof Between>;
-    } = {
+    }
+
+    const where: WhereCondition = {
       status: In([BimbinganStatus.DIJADWALKAN, BimbinganStatus.DITUNDA]),
       tanggal: Between(
         new Date(),

@@ -165,14 +165,21 @@ export class AuthService {
 
     // Generate access token
     const accessToken = await this.jwtService.signAsync(payload, {
-      secret: jwtConstants.secret,
-      expiresIn: jwtConstants.expiresIn,
+      secret:
+        this.configService.get<string>('JWT_SECRET') || jwtConstants.secret,
+      expiresIn:
+        this.configService.get<string>('JWT_EXPIRES_IN') ||
+        jwtConstants.expiresIn,
     });
 
     // Generate refresh token
     const refreshToken = await this.jwtService.signAsync(payload, {
-      secret: jwtConstants.refreshSecret,
-      expiresIn: jwtConstants.refreshExpiresIn,
+      secret:
+        this.configService.get<string>('JWT_REFRESH_SECRET') ||
+        jwtConstants.refreshSecret,
+      expiresIn:
+        this.configService.get<string>('JWT_REFRESH_EXPIRES_IN') ||
+        jwtConstants.refreshExpiresIn,
     });
 
     return {

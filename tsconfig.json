@@ -21,5 +21,13 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "skipDefaultLibCheck": true
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "**/*spec.ts",
+    "test-endpoints.js",
+    "reset-db.ts"
+  ]
 }

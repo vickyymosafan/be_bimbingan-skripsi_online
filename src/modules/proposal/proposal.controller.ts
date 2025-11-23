@@ -139,7 +139,7 @@ export class ProposalController {
     status: 200,
     description: 'Statistik proposal berhasil diambil',
   })
-  async getStatistics(@Request() req: AuthenticatedRequest) {
+  async getStatistics(@Request() req: AuthenticatedRequest): Promise<any> {
     const stats = await this.proposalService.getStatistics(req.user);
 
     return {
