@@ -8,6 +8,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import serverlessExpress from '@codegenie/serverless-express';
 import { Callback, Context, Handler } from 'aws-lambda';
+import type { Application } from 'express';
 import { AppModule } from './app.module';
 
 let server: Handler;
@@ -18,8 +19,9 @@ async function bootstrap(): Promise<Handler> {
   const configService = app.get(ConfigService);
 
   // CORS configuration
+  const corsOrigin = configService.get<string>('CORS_ORIGIN');
   app.enableCors({
-    origin: configService.get('CORS_ORIGIN')?.split(',') || '*',
+    origin: corsOrigin ? corsOrigin.split(',') : '*',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -82,17 +84,17 @@ async function bootstrap(): Promise<Handler> {
 
   await app.init();
 
-  const expressApp = app.getHttpAdapter().getInstance();
+  const expressApp = app.getHttpAdapter().getInstance() as Application;
   return serverlessExpress({ app: expressApp });
 }
 
 export const handler: Handler = async (
-  event: any,
+  event: unknown,
   context: Context,
   callback: Callback,
-) => {
+): Promise<unknown> => {
   if (!server) {
     server = await bootstrap();
   }
-  return server(event, context, callback);
+  return server(event, context, callback) as Promise<unknown>;
 };

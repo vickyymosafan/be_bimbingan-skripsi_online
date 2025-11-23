@@ -19,11 +19,10 @@ import { jwtConstants } from '../../config/jwt.config';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET') || jwtConstants.secret,
         signOptions: {
-          expiresIn: (configService.get<string>('JWT_EXPIRES_IN') ||
-            '7d') as any,
+          expiresIn: configService.get<string>('JWT_EXPIRES_IN') || '7d',
         },
       }),
       inject: [ConfigService],

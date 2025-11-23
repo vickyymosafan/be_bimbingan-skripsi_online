@@ -6,17 +6,14 @@ import {
   Injectable,
   UnauthorizedException,
   ConflictException,
-  BadRequestException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import * as bcrypt from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
 import { UserService } from '../../user/services/user.service';
 import { User } from '../../user/entities/user.entity';
 import { LoginDto } from '../dto/login.dto';
 import { RegisterDto } from '../dto/register.dto';
-import { RefreshTokenDto } from '../dto/refresh-token.dto';
 import { AuthResponseDto } from '../dto/auth-response.dto';
 import { UserResponseDto } from '../../user/dto/user-response.dto';
 import { JwtPayload } from '../strategies/jwt.strategy';
@@ -167,13 +164,13 @@ export class AuthService {
     };
 
     // Generate access token
-    const accessToken = await this.jwtService.signAsync(payload as any, {
+    const accessToken = await this.jwtService.signAsync(payload, {
       secret: jwtConstants.secret,
       expiresIn: jwtConstants.expiresIn,
     });
 
     // Generate refresh token
-    const refreshToken = await this.jwtService.signAsync(payload as any, {
+    const refreshToken = await this.jwtService.signAsync(payload, {
       secret: jwtConstants.refreshSecret,
       expiresIn: jwtConstants.refreshExpiresIn,
     });

@@ -44,9 +44,10 @@ import { AppService } from './app.service';
     // Database
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        ...configService.get('database'),
-      }),
+      useFactory: (configService: ConfigService) => {
+        const dbConfig = configService.get<Record<string, unknown>>('database');
+        return dbConfig ?? {};
+      },
       inject: [ConfigService],
     }),
 

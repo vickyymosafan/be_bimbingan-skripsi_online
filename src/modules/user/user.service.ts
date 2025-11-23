@@ -119,6 +119,13 @@ export class UserService {
   }
 
   /**
+   * Get user by ID (for auth - returns full entity)
+   */
+  async findById(id: string): Promise<User | null> {
+    return this.userRepository.findById(id);
+  }
+
+  /**
    * Get user by email (for auth)
    */
   async findByEmail(email: string): Promise<User | null> {

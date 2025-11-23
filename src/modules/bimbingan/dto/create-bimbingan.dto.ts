@@ -14,10 +14,8 @@ import {
   IsBoolean,
   IsNumber,
   Min,
-  Max,
   IsMilitaryTime,
   IsUrl,
-  IsArray,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { BimbinganStatus, BimbinganType } from '../entities/bimbingan.entity';

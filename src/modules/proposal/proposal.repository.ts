@@ -117,7 +117,10 @@ export class ProposalRepository extends Repository<Proposal> {
   /**
    * Mendapatkan statistik proposal
    */
-  async getStatistics(userId?: string, role?: string): Promise<any> {
+  async getStatistics(
+    userId?: string,
+    role?: string,
+  ): Promise<Record<string, number>> {
     const queryBuilder = this.createQueryBuilder('proposal');
 
     // Filter berdasarkan role
@@ -131,9 +134,9 @@ export class ProposalRepository extends Repository<Proposal> {
       .select('proposal.status', 'status')
       .addSelect('COUNT(*)', 'count')
       .groupBy('proposal.status')
-      .getRawMany();
+      .getRawMany<{ status: string; count: string }>();
 
-    return stats.reduce((acc, stat) => {
+    return stats.reduce((acc: Record<string, number>, stat) => {
       acc[stat.status] = parseInt(stat.count, 10);
       return acc;
     }, {});

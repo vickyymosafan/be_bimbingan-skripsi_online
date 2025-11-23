@@ -10,25 +10,21 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
   Query,
   ParseUUIDPipe,
   HttpCode,
   HttpStatus,
-  Req,
 } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
-  ApiBearerAuth,
   ApiQuery,
   ApiParam,
 } from '@nestjs/swagger';
 import { UserService } from '../services/user.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { ChangePasswordDto } from '../dto/change-password.dto';
 import { UserResponseDto } from '../dto/user-response.dto';
 import { UserRole } from '../../../common/enums';
 // Import guards akan ditambahkan nanti
@@ -134,7 +130,7 @@ export class UserController {
   })
   // @UseGuards(JwtAuthGuard)
   // @ApiBearerAuth()
-  async getProfile(/*@CurrentUser() user: User*/) {
+  getProfile(/*@CurrentUser() user: User*/) {
     // Placeholder untuk implementasi dengan auth
     // const data = await this.userService.findOne(user.id);
     return {
@@ -160,10 +156,8 @@ export class UserController {
   })
   // @UseGuards(JwtAuthGuard)
   // @ApiBearerAuth()
-  async changePassword(
-    /*@CurrentUser() user: User,*/
-    @Body() changePasswordDto: ChangePasswordDto,
-  ) {
+  changePassword /*@CurrentUser() user: User,*/() {
+    // @Body() changePasswordDto: ChangePasswordDto,
     // Placeholder untuk implementasi dengan auth
     // const result = await this.userService.changePassword(user.id, changePasswordDto);
     return {

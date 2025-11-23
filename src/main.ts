@@ -18,8 +18,9 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   // CORS configuration
+  const corsOrigin = configService.get<string>('CORS_ORIGIN');
   app.enableCors({
-    origin: configService.get('CORS_ORIGIN')?.split(',') || '*',
+    origin: corsOrigin ? corsOrigin.split(',') : '*',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -85,4 +86,4 @@ async function bootstrap() {
   );
 }
 
-bootstrap();
+void bootstrap();

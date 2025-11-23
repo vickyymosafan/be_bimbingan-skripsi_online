@@ -60,7 +60,7 @@ export class CreateUserDto {
     description: 'NIM mahasiswa (wajib untuk role MAHASISWA)',
     example: '12345678',
   })
-  @ValidateIf((o) => o.role === UserRole.MAHASISWA)
+  @ValidateIf((o: CreateUserDto) => o.role === UserRole.MAHASISWA)
   @IsNotEmpty({ message: 'NIM harus diisi untuk mahasiswa' })
   @IsString({ message: 'NIM harus berupa string' })
   @MaxLength(20, { message: 'NIM maksimal 20 karakter' })
@@ -70,7 +70,7 @@ export class CreateUserDto {
     description: 'NIP dosen (wajib untuk role DOSEN)',
     example: '198701012015041001',
   })
-  @ValidateIf((o) => o.role === UserRole.DOSEN)
+  @ValidateIf((o: CreateUserDto) => o.role === UserRole.DOSEN)
   @IsNotEmpty({ message: 'NIP harus diisi untuk dosen' })
   @IsString({ message: 'NIP harus berupa string' })
   @MaxLength(20, { message: 'NIP maksimal 20 karakter' })

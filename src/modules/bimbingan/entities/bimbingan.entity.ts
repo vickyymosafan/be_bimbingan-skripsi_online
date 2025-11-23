@@ -2,14 +2,7 @@
  * Entity untuk Bimbingan / Konsultasi
  */
 
-import {
-  Entity,
-  Column,
-  ManyToOne,
-  JoinColumn,
-  OneToMany,
-  Index,
-} from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, Index } from 'typeorm';
 import { BaseEntity } from '../../../common/entities/base.entity';
 import { Proposal } from '../../proposal/entities/proposal.entity';
 import { User } from '../../user/entities/user.entity';

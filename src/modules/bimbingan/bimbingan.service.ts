@@ -10,15 +10,30 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between, In } from 'typeorm';
-import {
-  Bimbingan,
-  BimbinganStatus,
-  BimbinganType,
-} from './entities/bimbingan.entity';
+import { Bimbingan, BimbinganStatus } from './entities/bimbingan.entity';
 import { CreateBimbinganDto } from './dto/create-bimbingan.dto';
 import { UpdateBimbinganDto } from './dto/update-bimbingan.dto';
 import { ProposalService } from '../proposal/proposal.service';
 import { UserRole } from '../../common/enums';
+
+interface UserContext {
+  id: string;
+  role: UserRole;
+}
+
+interface BimbinganFilters {
+  status?: BimbinganStatus;
+  proposalId?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
+
+interface FinishBimbinganData {
+  hasilBimbingan?: string;
+  tugasSelanjutnya?: string;
+  nilaiProgress?: number;
+  catatan?: string;
+}
 
 @Injectable()
 export class BimbinganService {
@@ -31,10 +46,13 @@ export class BimbinganService {
   /**
    * Membuat jadwal bimbingan baru
    */
+
   async create(
     createBimbinganDto: CreateBimbinganDto,
-    userId: string,
-    userRole: UserRole,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _userId: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _userRole: UserRole,
   ): Promise<Bimbingan> {
     // Validasi proposal exists dan user memiliki akses
     const proposal = await this.proposalService.findOne(
@@ -66,8 +84,17 @@ export class BimbinganService {
   /**
    * Mendapatkan semua bimbingan dengan filter
    */
-  async findAll(user: any, filters?: any): Promise<Bimbingan[]> {
-    const where: any = {};
+  async findAll(
+    user: UserContext,
+    filters?: BimbinganFilters,
+  ): Promise<Bimbingan[]> {
+    const where: {
+      mahasiswaId?: string;
+      dosenId?: string;
+      status?: BimbinganStatus;
+      proposalId?: string;
+      tanggal?: ReturnType<typeof Between>;
+    } = {};
 
     // Filter berdasarkan role
     if (user.role === UserRole.MAHASISWA) {
@@ -93,7 +120,7 @@ export class BimbinganService {
   /**
    * Mendapatkan detail bimbingan
    */
-  async findOne(id: string, user?: any): Promise<Bimbingan> {
+  async findOne(id: string, user?: UserContext): Promise<Bimbingan> {
     const bimbingan = await this.bimbinganRepository.findOne({
       where: { id },
       relations: ['proposal', 'mahasiswa', 'dosen'],
@@ -119,7 +146,7 @@ export class BimbinganService {
   async update(
     id: string,
     updateBimbinganDto: UpdateBimbinganDto,
-    user: any,
+    user: UserContext,
   ): Promise<Bimbingan> {
     const bimbingan = await this.findOne(id);
 
@@ -134,7 +161,7 @@ export class BimbinganService {
   /**
    * Hapus bimbingan
    */
-  async remove(id: string, user: any): Promise<void> {
+  async remove(id: string, user: UserContext): Promise<void> {
     const bimbingan = await this.findOne(id);
 
     if (!this.canDeleteBimbingan(bimbingan, user)) {
@@ -147,7 +174,7 @@ export class BimbinganService {
   /**
    * Mulai bimbingan
    */
-  async startBimbingan(id: string, user: any): Promise<Bimbingan> {
+  async startBimbingan(id: string, user: UserContext): Promise<Bimbingan> {
     const bimbingan = await this.findOne(id);
 
     if (bimbingan.status !== BimbinganStatus.DIJADWALKAN) {
@@ -169,7 +196,11 @@ export class BimbinganService {
   /**
    * Selesaikan bimbingan
    */
-  async finishBimbingan(id: string, data: any, user: any): Promise<Bimbingan> {
+  async finishBimbingan(
+    id: string,
+    data: FinishBimbinganData,
+    user: UserContext,
+  ): Promise<Bimbingan> {
     const bimbingan = await this.findOne(id);
 
     if (user.role !== UserRole.DOSEN || user.id !== bimbingan.dosenId) {
@@ -203,7 +234,7 @@ export class BimbinganService {
   async cancelBimbingan(
     id: string,
     alasan: string,
-    user: any,
+    user: UserContext,
   ): Promise<Bimbingan> {
     const bimbingan = await this.findOne(id);
 
@@ -232,7 +263,12 @@ export class BimbinganService {
     userId: string,
     userRole: UserRole,
   ): Promise<Bimbingan[]> {
-    const where: any = {
+    const where: {
+      mahasiswaId?: string;
+      dosenId?: string;
+      status: BimbinganStatus[];
+      tanggal: ReturnType<typeof Between>;
+    } = {
       status: In([BimbinganStatus.DIJADWALKAN, BimbinganStatus.DITUNDA]),
       tanggal: Between(
         new Date(),
@@ -258,7 +294,7 @@ export class BimbinganService {
    */
   async getBimbinganHistory(
     proposalId: string,
-    user: any,
+    user: UserContext,
   ): Promise<Bimbingan[]> {
     // Validate access to proposal
     await this.proposalService.findOne(proposalId, user);
@@ -274,14 +310,14 @@ export class BimbinganService {
   }
 
   // Helper methods
-  private canAccessBimbingan(bimbingan: Bimbingan, user: any): boolean {
+  private canAccessBimbingan(bimbingan: Bimbingan, user: UserContext): boolean {
     if (user.role === UserRole.ADMIN) return true;
     if (user.id === bimbingan.mahasiswaId) return true;
     if (user.id === bimbingan.dosenId) return true;
     return false;
   }
 
-  private canUpdateBimbingan(bimbingan: Bimbingan, user: any): boolean {
+  private canUpdateBimbingan(bimbingan: Bimbingan, user: UserContext): boolean {
     if (user.role === UserRole.ADMIN) return true;
     if (user.id === bimbingan.dosenId) return true;
     if (
@@ -292,13 +328,13 @@ export class BimbinganService {
     return false;
   }
 
-  private canDeleteBimbingan(bimbingan: Bimbingan, user: any): boolean {
+  private canDeleteBimbingan(bimbingan: Bimbingan, user: UserContext): boolean {
     if (user.role === UserRole.ADMIN) return true;
     if (user.id === bimbingan.dosenId) return true;
     return false;
   }
 
-  private canCancelBimbingan(bimbingan: Bimbingan, user: any): boolean {
+  private canCancelBimbingan(bimbingan: Bimbingan, user: UserContext): boolean {
     if (user.role === UserRole.ADMIN) return true;
     if (user.id === bimbingan.dosenId) return true;
     if (user.id === bimbingan.mahasiswaId) return true;

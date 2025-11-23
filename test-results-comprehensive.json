@@ -1,0 +1,759 @@
+{
+  "total": 41,
+  "passed": 3,
+  "blocked": 38,
+  "failed": 0,
+  "byModule": {
+    "App": [
+      {
+        "module": "App",
+        "endpoint": "/",
+        "method": "GET",
+        "role": "Public",
+        "status": 200,
+        "result": "✅ PASS",
+        "message": ""
+      },
+      {
+        "module": "App",
+        "endpoint": "/health",
+        "method": "GET",
+        "role": "Public",
+        "status": 200,
+        "result": "✅ PASS",
+        "message": "SIBMO API is running"
+      }
+    ],
+    "Auth": [
+      {
+        "module": "Auth",
+        "endpoint": "/api/v1/auth/register",
+        "method": "POST",
+        "role": "Public",
+        "status": 201,
+        "result": "✅ PASS",
+        "message": "Registrasi berhasil"
+      },
+      {
+        "module": "Auth",
+        "endpoint": "/api/v1/auth/profile",
+        "method": "GET",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Auth",
+        "endpoint": "/api/v1/auth/validate",
+        "method": "GET",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Auth",
+        "endpoint": "/api/v1/auth/refresh",
+        "method": "POST",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Auth",
+        "endpoint": "/api/v1/auth/profile",
+        "method": "GET",
+        "role": "dosen",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Auth",
+        "endpoint": "/api/v1/auth/validate",
+        "method": "GET",
+        "role": "dosen",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Auth",
+        "endpoint": "/api/v1/auth/refresh",
+        "method": "POST",
+        "role": "dosen",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Auth",
+        "endpoint": "/api/v1/auth/profile",
+        "method": "GET",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Auth",
+        "endpoint": "/api/v1/auth/validate",
+        "method": "GET",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Auth",
+        "endpoint": "/api/v1/auth/refresh",
+        "method": "POST",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      }
+    ],
+    "Users": [
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users",
+        "method": "GET",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users/profile",
+        "method": "GET",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users/dosen",
+        "method": "GET",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users/mahasiswa",
+        "method": "GET",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users",
+        "method": "POST",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users",
+        "method": "GET",
+        "role": "dosen",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users/profile",
+        "method": "GET",
+        "role": "dosen",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users/dosen",
+        "method": "GET",
+        "role": "dosen",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users/mahasiswa",
+        "method": "GET",
+        "role": "dosen",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users",
+        "method": "GET",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users/profile",
+        "method": "GET",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users/dosen",
+        "method": "GET",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Users",
+        "endpoint": "/api/v1/users/mahasiswa",
+        "method": "GET",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      }
+    ],
+    "Proposals": [
+      {
+        "module": "Proposals",
+        "endpoint": "/api/v1/proposals",
+        "method": "GET",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Proposals",
+        "endpoint": "/api/v1/proposals/statistics",
+        "method": "GET",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Proposals",
+        "endpoint": "/api/v1/proposals/pending-review",
+        "method": "GET",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Proposals",
+        "endpoint": "/api/v1/proposals",
+        "method": "GET",
+        "role": "dosen",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Proposals",
+        "endpoint": "/api/v1/proposals/statistics",
+        "method": "GET",
+        "role": "dosen",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Proposals",
+        "endpoint": "/api/v1/proposals/pending-review",
+        "method": "GET",
+        "role": "dosen",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Proposals",
+        "endpoint": "/api/v1/proposals",
+        "method": "GET",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Proposals",
+        "endpoint": "/api/v1/proposals/statistics",
+        "method": "GET",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Proposals",
+        "endpoint": "/api/v1/proposals/pending-review",
+        "method": "GET",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Proposals",
+        "endpoint": "/api/v1/proposals",
+        "method": "POST",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      }
+    ],
+    "Bimbingan": [
+      {
+        "module": "Bimbingan",
+        "endpoint": "/api/v1/bimbingan",
+        "method": "GET",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Bimbingan",
+        "endpoint": "/api/v1/bimbingan/upcoming",
+        "method": "GET",
+        "role": "admin",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Bimbingan",
+        "endpoint": "/api/v1/bimbingan",
+        "method": "GET",
+        "role": "dosen",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Bimbingan",
+        "endpoint": "/api/v1/bimbingan/upcoming",
+        "method": "GET",
+        "role": "dosen",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Bimbingan",
+        "endpoint": "/api/v1/bimbingan",
+        "method": "GET",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      },
+      {
+        "module": "Bimbingan",
+        "endpoint": "/api/v1/bimbingan/upcoming",
+        "method": "GET",
+        "role": "mahasiswa",
+        "status": 401,
+        "result": "🔒 UNAUTHORIZED",
+        "message": "Unauthorized"
+      }
+    ]
+  },
+  "failures": [],
+  "allResults": [
+    {
+      "module": "App",
+      "endpoint": "/",
+      "method": "GET",
+      "role": "Public",
+      "status": 200,
+      "result": "✅ PASS",
+      "message": ""
+    },
+    {
+      "module": "App",
+      "endpoint": "/health",
+      "method": "GET",
+      "role": "Public",
+      "status": 200,
+      "result": "✅ PASS",
+      "message": "SIBMO API is running"
+    },
+    {
+      "module": "Auth",
+      "endpoint": "/api/v1/auth/register",
+      "method": "POST",
+      "role": "Public",
+      "status": 201,
+      "result": "✅ PASS",
+      "message": "Registrasi berhasil"
+    },
+    {
+      "module": "Auth",
+      "endpoint": "/api/v1/auth/profile",
+      "method": "GET",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Auth",
+      "endpoint": "/api/v1/auth/validate",
+      "method": "GET",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Auth",
+      "endpoint": "/api/v1/auth/refresh",
+      "method": "POST",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users",
+      "method": "GET",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users/profile",
+      "method": "GET",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users/dosen",
+      "method": "GET",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users/mahasiswa",
+      "method": "GET",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users",
+      "method": "POST",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Proposals",
+      "endpoint": "/api/v1/proposals",
+      "method": "GET",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Proposals",
+      "endpoint": "/api/v1/proposals/statistics",
+      "method": "GET",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Proposals",
+      "endpoint": "/api/v1/proposals/pending-review",
+      "method": "GET",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Bimbingan",
+      "endpoint": "/api/v1/bimbingan",
+      "method": "GET",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Bimbingan",
+      "endpoint": "/api/v1/bimbingan/upcoming",
+      "method": "GET",
+      "role": "admin",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Auth",
+      "endpoint": "/api/v1/auth/profile",
+      "method": "GET",
+      "role": "dosen",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Auth",
+      "endpoint": "/api/v1/auth/validate",
+      "method": "GET",
+      "role": "dosen",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Auth",
+      "endpoint": "/api/v1/auth/refresh",
+      "method": "POST",
+      "role": "dosen",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users",
+      "method": "GET",
+      "role": "dosen",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users/profile",
+      "method": "GET",
+      "role": "dosen",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users/dosen",
+      "method": "GET",
+      "role": "dosen",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users/mahasiswa",
+      "method": "GET",
+      "role": "dosen",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Proposals",
+      "endpoint": "/api/v1/proposals",
+      "method": "GET",
+      "role": "dosen",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Proposals",
+      "endpoint": "/api/v1/proposals/statistics",
+      "method": "GET",
+      "role": "dosen",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Proposals",
+      "endpoint": "/api/v1/proposals/pending-review",
+      "method": "GET",
+      "role": "dosen",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Bimbingan",
+      "endpoint": "/api/v1/bimbingan",
+      "method": "GET",
+      "role": "dosen",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Bimbingan",
+      "endpoint": "/api/v1/bimbingan/upcoming",
+      "method": "GET",
+      "role": "dosen",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Auth",
+      "endpoint": "/api/v1/auth/profile",
+      "method": "GET",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Auth",
+      "endpoint": "/api/v1/auth/validate",
+      "method": "GET",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Auth",
+      "endpoint": "/api/v1/auth/refresh",
+      "method": "POST",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users",
+      "method": "GET",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users/profile",
+      "method": "GET",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users/dosen",
+      "method": "GET",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Users",
+      "endpoint": "/api/v1/users/mahasiswa",
+      "method": "GET",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Proposals",
+      "endpoint": "/api/v1/proposals",
+      "method": "GET",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Proposals",
+      "endpoint": "/api/v1/proposals/statistics",
+      "method": "GET",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Proposals",
+      "endpoint": "/api/v1/proposals/pending-review",
+      "method": "GET",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Proposals",
+      "endpoint": "/api/v1/proposals",
+      "method": "POST",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Bimbingan",
+      "endpoint": "/api/v1/bimbingan",
+      "method": "GET",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    },
+    {
+      "module": "Bimbingan",
+      "endpoint": "/api/v1/bimbingan/upcoming",
+      "method": "GET",
+      "role": "mahasiswa",
+      "status": 401,
+      "result": "🔒 UNAUTHORIZED",
+      "message": "Unauthorized"
+    }
+  ]
+}

@@ -33,6 +33,14 @@ import { Roles } from '../../common/decorators/roles.decorator';
 import { UserRole } from '../../common/enums';
 import { BimbinganStatus } from './entities/bimbingan.entity';
 
+interface AuthenticatedRequest {
+  user: {
+    id: string;
+    email: string;
+    role: UserRole;
+  };
+}
+
 @ApiTags('Bimbingan')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -48,7 +56,7 @@ export class BimbinganController {
   })
   async create(
     @Body() createBimbinganDto: CreateBimbinganDto,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const bimbingan = await this.bimbinganService.create(
       createBimbinganDto,
@@ -89,7 +97,7 @@ export class BimbinganController {
     description: 'Filter tanggal akhir',
   })
   async findAll(
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
     @Query('status') status?: BimbinganStatus,
     @Query('proposalId') proposalId?: string,
     @Query('startDate') startDate?: string,
@@ -113,7 +121,7 @@ export class BimbinganController {
 
   @Get('upcoming')
   @ApiOperation({ summary: 'Mendapatkan jadwal bimbingan mendatang' })
-  async getUpcoming(@Request() req: any) {
+  async getUpcoming(@Request() req: AuthenticatedRequest) {
     const bimbingans = await this.bimbinganService.getUpcomingBimbingan(
       req.user.id,
       req.user.role,
@@ -130,7 +138,7 @@ export class BimbinganController {
   @ApiOperation({ summary: 'Mendapatkan riwayat bimbingan untuk proposal' })
   async getHistory(
     @Param('proposalId', ParseUUIDPipe) proposalId: string,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const history = await this.bimbinganService.getBimbinganHistory(
       proposalId,
@@ -146,7 +154,10 @@ export class BimbinganController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Mendapatkan detail bimbingan' })
-  async findOne(@Param('id', ParseUUIDPipe) id: string, @Request() req: any) {
+  async findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Request() req: AuthenticatedRequest,
+  ) {
     const bimbingan = await this.bimbinganService.findOne(id, req.user);
 
     return {
@@ -161,7 +172,7 @@ export class BimbinganController {
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateBimbinganDto: UpdateBimbinganDto,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const bimbingan = await this.bimbinganService.update(
       id,
@@ -179,7 +190,10 @@ export class BimbinganController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Hapus bimbingan' })
-  async remove(@Param('id', ParseUUIDPipe) id: string, @Request() req: any) {
+  async remove(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Request() req: AuthenticatedRequest,
+  ) {
     await this.bimbinganService.remove(id, req.user);
   }
 
@@ -187,7 +201,7 @@ export class BimbinganController {
   @ApiOperation({ summary: 'Mulai bimbingan' })
   async startBimbingan(
     @Param('id', ParseUUIDPipe) id: string,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const bimbingan = await this.bimbinganService.startBimbingan(id, req.user);
 
@@ -210,7 +224,7 @@ export class BimbinganController {
       nilaiProgress?: number;
       catatan?: string;
     },
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const bimbingan = await this.bimbinganService.finishBimbingan(
       id,
@@ -230,7 +244,7 @@ export class BimbinganController {
   async cancelBimbingan(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('alasan') alasan: string,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const bimbingan = await this.bimbinganService.cancelBimbingan(
       id,

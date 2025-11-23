@@ -17,14 +17,14 @@ import { Request, Response } from 'express';
 export class HttpExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(HttpExceptionFilter.name);
 
-  catch(exception: any, host: ArgumentsHost) {
+  catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Terjadi kesalahan pada server';
-    let errors = null;
+    let errors: unknown = null;
 
     // Handle HttpException
     if (exception instanceof HttpException) {
@@ -32,27 +32,33 @@ export class HttpExceptionFilter implements ExceptionFilter {
       const responseBody = exception.getResponse();
 
       if (typeof responseBody === 'object' && responseBody !== null) {
-        message = (responseBody as any).message || message;
-        errors = (responseBody as any).errors || null;
+        const body = responseBody as Record<string, unknown>;
+        message =
+          (typeof body.message === 'string' ? body.message : undefined) ||
+          message;
+        errors = body.errors || null;
 
         // Handle validation errors dari class-validator
-        if (Array.isArray(message)) {
-          errors = message;
+        if (Array.isArray(body.message)) {
+          errors = body.message;
           message = 'Validasi gagal';
         }
+      } else if (typeof responseBody === 'string') {
+        message = responseBody;
       } else {
-        message = responseBody.toString();
+        message = JSON.stringify(responseBody);
       }
     }
 
     // Handle TypeORM errors
-    if (exception.code === '23505') {
+    const err = exception as { code?: string; stack?: string };
+    if (err.code === '23505') {
       status = HttpStatus.CONFLICT;
       message = 'Data sudah ada';
-    } else if (exception.code === '23503') {
+    } else if (err.code === '23503') {
       status = HttpStatus.BAD_REQUEST;
       message = 'Data terkait tidak ditemukan';
-    } else if (exception.code === '23502') {
+    } else if (err.code === '23502') {
       status = HttpStatus.BAD_REQUEST;
       message = 'Data tidak lengkap';
     }
@@ -60,7 +66,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     // Log error
     this.logger.error(
       `${request.method} ${request.url} - Status: ${status} - Message: ${message}`,
-      exception.stack,
+      err.stack,
     );
 
     // Send response

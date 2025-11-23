@@ -47,4 +47,4 @@ async function runSeeds() {
 }
 
 // Run seeding
-runSeeds();
+void runSeeds();

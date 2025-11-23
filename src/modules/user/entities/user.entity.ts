@@ -2,7 +2,7 @@
  * Entity untuk User (Mahasiswa, Dosen, Admin)
  */
 
-import { Entity, Column, Index, OneToMany, BeforeInsert } from 'typeorm';
+import { Entity, Column, Index, BeforeInsert } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
 import { BaseEntity } from '../../../common/entities/base.entity';

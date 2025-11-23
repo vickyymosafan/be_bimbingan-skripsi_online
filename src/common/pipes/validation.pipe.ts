@@ -9,17 +9,28 @@ import {
   ArgumentMetadata,
   BadRequestException,
 } from '@nestjs/common';
-import { validate } from 'class-validator';
+import { validate, ValidationError } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 
+interface FormattedError {
+  field: string;
+  constraints: Record<string, string>;
+  children?: FormattedError[];
+}
+
+type ValidatorType = new (...args: unknown[]) => unknown;
+
 @Injectable()
-export class ValidationPipe implements PipeTransform<any> {
-  async transform(value: any, { metatype }: ArgumentMetadata) {
+export class ValidationPipe implements PipeTransform<unknown> {
+  async transform(
+    value: unknown,
+    { metatype }: ArgumentMetadata,
+  ): Promise<unknown> {
     if (!metatype || !this.toValidate(metatype)) {
       return value;
     }
 
-    const object = plainToClass(metatype, value);
+    const object = plainToClass(metatype, value as object) as object;
     const errors = await validate(object);
 
     if (errors.length > 0) {
@@ -30,20 +41,20 @@ export class ValidationPipe implements PipeTransform<any> {
       });
     }
 
-    return value;
+    return object;
   }
 
-  private toValidate(metatype: Function): boolean {
-    const types: Function[] = [String, Boolean, Number, Array, Object];
+  private toValidate(metatype: ValidatorType): boolean {
+    const types: ValidatorType[] = [String, Boolean, Number, Array, Object];
     return !types.includes(metatype);
   }
 
-  private formatErrors(errors: any[]): any[] {
+  private formatErrors(errors: ValidationError[]): FormattedError[] {
     return errors.map((error) => ({
       field: error.property,
-      constraints: error.constraints,
+      constraints: error.constraints || {},
       children:
-        error.children?.length > 0
+        error.children && error.children.length > 0
           ? this.formatErrors(error.children)
           : undefined,
     }));

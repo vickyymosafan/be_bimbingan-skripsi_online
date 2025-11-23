@@ -14,6 +14,20 @@ import { UpdateProposalDto } from './dto/update-proposal.dto';
 import { Proposal, ProposalStatus } from './entities/proposal.entity';
 import { UserRole } from '../../common/enums';
 
+interface UserContext {
+  id: string;
+  role: UserRole;
+}
+
+interface ProposalStatistics {
+  total: number;
+  draft: number;
+  diajukan: number;
+  diterima: number;
+  ditolak: number;
+  revisi: number;
+}
+
 @Injectable()
 export class ProposalService {
   constructor(private readonly proposalRepository: ProposalRepository) {}
@@ -52,15 +66,24 @@ export class ProposalService {
    * Mendapatkan semua proposal dengan filter
    */
   async findAll(
-    user: any,
+    user: UserContext,
     filters?: {
       status?: ProposalStatus;
+      mahasiswaId?: string;
+      dosenPembimbingId?: string;
       searchTerm?: string;
       startDate?: Date;
       endDate?: Date;
     },
   ): Promise<Proposal[]> {
-    const queryFilters: any = { ...filters };
+    const queryFilters: {
+      status?: ProposalStatus;
+      mahasiswaId?: string;
+      dosenPembimbingId?: string;
+      searchTerm?: string;
+      startDate?: Date;
+      endDate?: Date;
+    } = { ...filters };
 
     // Filter berdasarkan role
     if (user.role === UserRole.MAHASISWA) {
@@ -77,7 +100,7 @@ export class ProposalService {
   /**
    * Mendapatkan proposal berdasarkan ID
    */
-  async findOne(id: string, user?: any): Promise<Proposal> {
+  async findOne(id: string, user?: UserContext): Promise<Proposal> {
     const proposal = await this.proposalRepository.findOne({
       where: { id },
       relations: [
@@ -106,7 +129,7 @@ export class ProposalService {
   async update(
     id: string,
     updateProposalDto: UpdateProposalDto,
-    user: any,
+    user: UserContext,
   ): Promise<Proposal> {
     const proposal = await this.findOne(id);
 
@@ -133,7 +156,7 @@ export class ProposalService {
   /**
    * Hapus proposal (soft delete)
    */
-  async remove(id: string, user: any): Promise<void> {
+  async remove(id: string, user: UserContext): Promise<void> {
     const proposal = await this.findOne(id);
 
     // Hanya mahasiswa pemilik atau admin yang bisa hapus
@@ -262,7 +285,7 @@ export class ProposalService {
   /**
    * Mendapatkan statistik proposal
    */
-  async getStatistics(user: any): Promise<any> {
+  async getStatistics(user: UserContext): Promise<ProposalStatistics> {
     return this.proposalRepository.getStatistics(user.id, user.role);
   }
 
@@ -276,7 +299,7 @@ export class ProposalService {
   /**
    * Helper: Check if user can access proposal
    */
-  private canAccessProposal(proposal: Proposal, user: any): boolean {
+  private canAccessProposal(proposal: Proposal, user: UserContext): boolean {
     if (user.role === UserRole.ADMIN) return true;
     if (user.role === UserRole.MAHASISWA && proposal.mahasiswaId === user.id)
       return true;
@@ -293,7 +316,7 @@ export class ProposalService {
   /**
    * Helper: Check if user can update proposal
    */
-  private canUpdateProposal(proposal: Proposal, user: any): boolean {
+  private canUpdateProposal(proposal: Proposal, user: UserContext): boolean {
     if (user.role === UserRole.ADMIN) return true;
     if (user.role === UserRole.MAHASISWA && proposal.mahasiswaId === user.id)
       return true;

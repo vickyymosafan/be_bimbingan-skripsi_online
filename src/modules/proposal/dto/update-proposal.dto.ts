@@ -4,9 +4,8 @@
 
 import { PartialType } from '@nestjs/swagger';
 import { CreateProposalDto } from './create-proposal.dto';
-import { IsOptional, IsString, IsUUID, IsEnum } from 'class-validator';
+import { IsOptional, IsString, IsUUID } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { ProposalStatus } from '../entities/proposal.entity';
 
 export class UpdateProposalDto extends PartialType(CreateProposalDto) {
   @ApiPropertyOptional({

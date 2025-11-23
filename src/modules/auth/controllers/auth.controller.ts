@@ -22,7 +22,6 @@ import {
 import { AuthService } from '../services/auth.service';
 import { LoginDto } from '../dto/login.dto';
 import { RegisterDto } from '../dto/register.dto';
-import { RefreshTokenDto } from '../dto/refresh-token.dto';
 import { AuthResponseDto } from '../dto/auth-response.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
@@ -160,7 +159,7 @@ export class AuthController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Token tidak valid',
   })
-  async getProfile(@CurrentUser() user: User) {
+  getProfile(@CurrentUser() user: User) {
     return {
       status: 'success',
       message: 'Profile berhasil diambil',
@@ -183,7 +182,7 @@ export class AuthController {
     status: HttpStatus.UNAUTHORIZED,
     description: 'Token tidak valid',
   })
-  async validateToken(@CurrentUser() user: User) {
+  validateToken(@CurrentUser() user: User) {
     return {
       status: 'success',
       message: 'Token valid',

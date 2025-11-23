@@ -17,8 +17,10 @@ import { tap } from 'rxjs/operators';
 export class LoggingInterceptor implements NestInterceptor {
   private readonly logger = new Logger(LoggingInterceptor.name);
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const request = context.switchToHttp().getRequest();
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
+    const request = context
+      .switchToHttp()
+      .getRequest<{ method: string; url: string; body: unknown }>();
     const { method, url, body } = request;
     const now = Date.now();
 
@@ -29,8 +31,10 @@ export class LoggingInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       tap({
-        next: (data) => {
-          const response = context.switchToHttp().getResponse();
+        next: () => {
+          const response = context
+            .switchToHttp()
+            .getResponse<{ statusCode: number }>();
           const { statusCode } = response;
           const responseTime = Date.now() - now;
 
@@ -39,7 +43,7 @@ export class LoggingInterceptor implements NestInterceptor {
             `[RESPONSE] ${method} ${url} - Status: ${statusCode} - Time: ${responseTime}ms`,
           );
         },
-        error: (error) => {
+        error: (error: Error) => {
           const responseTime = Date.now() - now;
 
           // Log error

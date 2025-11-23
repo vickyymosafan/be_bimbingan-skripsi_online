@@ -128,9 +128,10 @@ export class UserRepository {
   /**
    * Update last login
    */
-  async updateLastLogin(id: string): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async updateLastLogin(_id: string): Promise<void> {
     // TODO: Add lastLogin field to User entity if needed
-    // await this.repository.update(id, { lastLogin: new Date() });
+    // await this.repository.update(_id, { lastLogin: new Date() });
   }
 
   /**

@@ -33,6 +33,14 @@ import { Roles } from '../../common/decorators/roles.decorator';
 import { UserRole } from '../../common/enums';
 import { ProposalStatus } from './entities/proposal.entity';
 
+interface AuthenticatedRequest {
+  user: {
+    id: string;
+    email: string;
+    role: UserRole;
+  };
+}
+
 @ApiTags('Proposals')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -54,7 +62,7 @@ export class ProposalController {
   })
   async create(
     @Body() createProposalDto: CreateProposalDto,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const proposal = await this.proposalService.create(
       createProposalDto,
@@ -98,13 +106,18 @@ export class ProposalController {
     description: 'Daftar proposal berhasil diambil',
   })
   async findAll(
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
     @Query('status') status?: ProposalStatus,
     @Query('searchTerm') searchTerm?: string,
     @Query('startDate') startDate?: string,
     @Query('endDate') endDate?: string,
   ) {
-    const filters: any = {
+    const filters: {
+      status?: ProposalStatus;
+      searchTerm?: string;
+      startDate?: Date;
+      endDate?: Date;
+    } = {
       status,
       searchTerm,
       startDate: startDate ? new Date(startDate) : undefined,
@@ -126,7 +139,7 @@ export class ProposalController {
     status: 200,
     description: 'Statistik proposal berhasil diambil',
   })
-  async getStatistics(@Request() req: any) {
+  async getStatistics(@Request() req: AuthenticatedRequest) {
     const stats = await this.proposalService.getStatistics(req.user);
 
     return {
@@ -145,7 +158,7 @@ export class ProposalController {
     status: 200,
     description: 'Daftar proposal pending review berhasil diambil',
   })
-  async getPendingReview(@Request() req: any) {
+  async getPendingReview(@Request() req: AuthenticatedRequest) {
     const proposals = await this.proposalService.getPendingReview(req.user.id);
 
     return {
@@ -165,7 +178,10 @@ export class ProposalController {
     status: 404,
     description: 'Proposal tidak ditemukan',
   })
-  async findOne(@Param('id', ParseUUIDPipe) id: string, @Request() req: any) {
+  async findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Request() req: AuthenticatedRequest,
+  ) {
     const proposal = await this.proposalService.findOne(id, req.user);
 
     return {
@@ -192,7 +208,7 @@ export class ProposalController {
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProposalDto: UpdateProposalDto,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const proposal = await this.proposalService.update(
       id,
@@ -222,7 +238,10 @@ export class ProposalController {
     status: 404,
     description: 'Proposal tidak ditemukan',
   })
-  async remove(@Param('id', ParseUUIDPipe) id: string, @Request() req: any) {
+  async remove(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Request() req: AuthenticatedRequest,
+  ) {
     await this.proposalService.remove(id, req.user);
   }
 
@@ -239,7 +258,7 @@ export class ProposalController {
   })
   async submitProposal(
     @Param('id', ParseUUIDPipe) id: string,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const proposal = await this.proposalService.submitProposal(id, req.user.id);
 
@@ -264,7 +283,7 @@ export class ProposalController {
   async approveProposal(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() data: { dosenPenguji1Id?: string; dosenPenguji2Id?: string },
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const proposal = await this.proposalService.approveProposal(
       id,
@@ -293,7 +312,7 @@ export class ProposalController {
   async rejectProposal(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('alasanPenolakan') alasanPenolakan: string,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const proposal = await this.proposalService.rejectProposal(
       id,
@@ -322,7 +341,7 @@ export class ProposalController {
   async requestRevision(
     @Param('id', ParseUUIDPipe) id: string,
     @Body('catatanRevisi') catatanRevisi: string,
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
   ) {
     const proposal = await this.proposalService.requestRevision(
       id,

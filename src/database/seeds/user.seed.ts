@@ -4,7 +4,6 @@
  */
 
 import { DataSource } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { User } from '../../modules/user/entities/user.entity';
 import { UserRole } from '../../common/enums';
 
